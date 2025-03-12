@@ -4,8 +4,8 @@ Writer Package
 This package contains the core functionality for the AI Content Writer application.
 It includes modules for AI content generation, search engine integration, and utility functions.
 """
-import os
 import logging
+
 from writer.utils.logging_config import setup_logging, is_running_in_docker
 
 # Initialize logging when the package is imported

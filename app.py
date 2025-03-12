@@ -1,16 +1,15 @@
-import streamlit as st
+import concurrent.futures
 import json
 import os
 from datetime import datetime
-import concurrent.futures
-import logging
-import sys
+
+import streamlit as st
 
 from writer.ai.agent import Agent
 from writer.model import AgentInput
 from writer.searchengine.tavily_engine import TavilySearchEngine
 from writer.utils.export import get_excel_data
-from writer.utils.logging_config import get_logger, is_running_in_docker
+from writer.utils.logging_config import get_logger
 
 # Get logger for this module
 logger = get_logger(__name__)

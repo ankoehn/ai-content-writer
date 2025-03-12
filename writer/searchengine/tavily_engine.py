@@ -5,8 +5,8 @@ This module implements the SearchEngine interface using the Tavily API.
 It provides functionality to search for content using the Tavily search service.
 """
 from typing import List
+
 from tavily import TavilyClient
-import logging
 
 from writer.config import config
 from writer.model import SearchResult

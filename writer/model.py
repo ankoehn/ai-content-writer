@@ -5,7 +5,6 @@ This module defines the data models used throughout the application
 using Pydantic for data validation and serialization.
 """
 from pydantic import BaseModel
-from typing import Optional, List
 
 
 class AgentInput(BaseModel):

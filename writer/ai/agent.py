@@ -4,13 +4,14 @@ Agent Module
 This module defines the Agent class which is responsible for processing content
 through language models with specific templates and system messages.
 """
-from typing import Type, TypeVar
-from pydantic import BaseModel
 import logging
+from typing import Type, TypeVar
 
-from writer.model import AgentInput
-from writer.config import config
+from pydantic import BaseModel
+
 from writer.ai import get_llm_model, LLMProvider, infer
+from writer.config import config
+from writer.model import AgentInput
 
 # Type variable for output model types
 OutputType = TypeVar('OutputType', bound=BaseModel)

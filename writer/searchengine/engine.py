@@ -6,6 +6,7 @@ It provides a common interface for different search engine providers.
 """
 from abc import ABC, abstractmethod
 from typing import List
+
 from writer.model import SearchResult
 
 
