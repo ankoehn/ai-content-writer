@@ -1,0 +1,31 @@
+# To rebuild the image on every docker-compose up, use:
+# docker-compose up --build
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: ai-content-writer:latest
+    container_name: ai-content-writer
+    ports:
+      - "8085:8085"
+    restart: unless-stopped
+    env_file:
+      - .env
+    # Configure logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Add a healthcheck to ensure the application is running properly
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:8085"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    # Mount a volume for persistent data
+    volumes:
+      - ./history:/app/history
+      - ./logs:/app/logs

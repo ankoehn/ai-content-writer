@@ -1,0 +1,20 @@
+# LangChain dependencies
+langchain==0.3.18
+langchain-core==0.3.34
+langchain-community==0.3.17
+langchain-openai==0.3.5
+
+# Data validation
+pydantic==2.10.6
+pydantic-settings==2.7.1
+
+# Search engine
+tavily-python==0.5.1
+
+# Web UI
+streamlit==1.43.2
+
+# Data processing and export
+pandas==2.2.3
+openpyxl==3.1.5
+XlsxWriter==3.2.2
