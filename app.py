@@ -199,6 +199,14 @@ def new_content_click():
     logger.info("New content button clicked")
     st.session_state.show_form = True
     st.session_state.selected_content = None
+    # Reset loading state when opening a new form
+    if 'is_loading' in st.session_state:
+        st.session_state.is_loading = False
+        logger.debug("Reset loading state when opening new form")
+    # Reset generation flag when opening a new form
+    if 'start_generation' in st.session_state:
+        st.session_state.start_generation = False
+        logger.debug("Reset generation flag when opening new form")
 
 
 # Function to handle history item click
@@ -291,42 +299,65 @@ with col2:
         logger.debug("Showing content creation form")
         st.subheader("Create Content")
 
-        # Create form for input
-        with st.form(key="content_form"):
-            campaign = st.text_input("Campaign")
-            content_subject = st.text_input("Content Subject")
-            target_audience = st.text_input("Target Audience")
+        # Initialize loading state if not exists
+        if 'is_loading' not in st.session_state:
+            logger.debug("Initializing is_loading state to False")
+            st.session_state.is_loading = False
+            
+        # Check if we need to start content generation
+        if 'start_generation' in st.session_state and st.session_state.start_generation:
+            logger.info("Starting content generation from session state")
+            campaign = st.session_state.campaign_input
+            content_subject = st.session_state.subject_input
+            target_audience = st.session_state.audience_input
+            
+            try:
+                with st.spinner("Generating content..."):
+                    content = generate_content(campaign, content_subject, target_audience)
 
-            # Initialize loading state if not exists
-            if 'is_loading' not in st.session_state:
-                logger.debug("Initializing is_loading state to False")
+                    if content:
+                        logger.info("Content generated successfully, updating UI")
+                        st.session_state.history = load_history()
+                        st.session_state.selected_content = content
+                        st.session_state.show_form = False
+                        # Reset generation flags
+                        st.session_state.start_generation = False
+                        st.session_state.is_loading = False
+                        logger.debug("Triggering page rerun to display new content")
+                        st.rerun()
+                    else:
+                        logger.error("Content generation failed")
+                        # Reset generation flags
+                        st.session_state.start_generation = False
+                        st.session_state.is_loading = False
+            except Exception as e:
+                logger.error(f"Exception during content generation: {str(e)}", exc_info=True)
+                st.error(f"Error generating content: {str(e)}")
+                # Reset generation flags
+                st.session_state.start_generation = False
                 st.session_state.is_loading = False
 
+        # Create form for input
+        with st.form(key="content_form"):
+            campaign = st.text_input("Campaign", key="campaign_input")
+            content_subject = st.text_input("Content Subject", key="subject_input")
+            target_audience = st.text_input("Target Audience", key="audience_input")
+
+            # Handle form submission
             submit_button = st.form_submit_button(label="Create", disabled=st.session_state.is_loading)
 
             if submit_button:
                 logger.info("Content creation form submitted")
-                st.session_state.is_loading = True
+                # Validate the form
                 if not campaign or not content_subject or not target_audience:
                     logger.warning("Form submitted with missing fields")
                     st.error("Please fill in all fields")
                 else:
-                    logger.info(f"Starting content generation for '{content_subject}'")
-                    with st.spinner("Generating content..."):
-                        content = generate_content(campaign, content_subject, target_audience)
-
-                        # Reset loading state
-                        st.session_state.is_loading = False
-
-                        if content:
-                            logger.info("Content generated successfully, updating UI")
-                            st.session_state.history = load_history()
-                            st.session_state.selected_content = content
-                            st.session_state.show_form = False
-                            logger.debug("Triggering page rerun to display new content")
-                            st.rerun()
-                        else:
-                            logger.error("Content generation failed")
+                    # Set flags to start generation on next rerun
+                    st.session_state.is_loading = True
+                    st.session_state.start_generation = True
+                    logger.debug("Set flags to start generation on next rerun")
+                    st.rerun()
     else:
         logger.debug("Displaying selected content")
         display_content(st.session_state.selected_content)
