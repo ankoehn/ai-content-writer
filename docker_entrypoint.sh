@@ -23,10 +23,6 @@ cleanup() {
 # Set up trap for cleanup
 trap cleanup SIGTERM SIGINT
 
-# Add a custom log message that will definitely show up in Docker logs
-echo "DOCKER LOG: About to start Streamlit application" >> /proc/1/fd/1
-echo "DOCKER LOG: About to start Streamlit application" >> /proc/1/fd/2
-
 # Run the Streamlit application in the background and redirect output to our log file
 streamlit run app.py --server.port=8085 2>&1 &
 APP_PID=$!
