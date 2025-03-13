@@ -4,6 +4,10 @@
 
 A Streamlit application that generates content for blog posts, LinkedIn, and X (Twitter) based on a given subject and target audience. The application uses AI to create tailored content for different platforms in parallel.
 
+This project is a Python implementation using LangChain of a simple n8n workflow for content creation. For visual demonstrations of the workflow, check out these YouTube videos:
+- English: [AI Automation by Nate Herk](https://www.youtube.com/watch?v=u2Tuu02r7QI)
+- German: [KI Automatisierung by Sebastian Claes](https://www.youtube.com/watch?v=mPCrFyTvMkk)
+
 ## 🔍 Prerequisites
 
 ### Docker Desktop
