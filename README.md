@@ -31,7 +31,7 @@ This application requires Docker Desktop to run. If you don't have Docker Deskto
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ai-content-writer.git
+   git clone https://github.com/ankoehn/ai-content-writer.git
    cd ai-content-writer
    ```
 
