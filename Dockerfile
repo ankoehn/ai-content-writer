@@ -26,8 +26,8 @@ EXPOSE 8085
 ENV DOCKER_CONTAINER=true
 # Set Python to unbuffered mode to ensure logs are output immediately
 ENV PYTHONUNBUFFERED=1
-# Set Streamlit to log to stdout
-ENV STREAMLIT_LOG_LEVEL=info
+# Set Streamlit logger level using the new format
+ENV STREAMLIT_LOGGER_LEVEL=info
 
 # Command to run the application
 CMD ["./docker_entrypoint.sh"]

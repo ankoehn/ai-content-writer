@@ -9,7 +9,7 @@ echo "==================================================="
 # Set environment variables for better logging
 export PYTHONUNBUFFERED=1
 export STREAMLIT_SERVER_HEADLESS=true
-export STREAMLIT_SERVER_LOG_LEVEL=info
+export STREAMLIT_LOGGER_LEVEL=info
 
 # Create a log file that we can tail
 touch /app/docker.log
@@ -24,7 +24,7 @@ cleanup() {
 trap cleanup SIGTERM SIGINT
 
 # Run the Streamlit application in the background and redirect output to our log file
-streamlit run app.py --server.port=8085 2>&1 &
+streamlit run app.py --server.port=8085 --logger.level=info 2>&1 &
 APP_PID=$!
 
 # Tail the log file to show logs in Docker
