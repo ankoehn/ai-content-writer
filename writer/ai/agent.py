@@ -9,7 +9,8 @@ from typing import Type, TypeVar
 
 from pydantic import BaseModel
 
-from writer.ai import get_llm_model, LLMProvider, infer
+from writer.ai.llm_model_provider import get_llm_model, LLMProvider
+from writer.ai.llm_processor import infer
 from writer.config import config
 from writer.model import AgentInput
 
